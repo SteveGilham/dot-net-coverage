@@ -32,7 +32,6 @@ using System.Linq.Expressions;
 using Coverage.Common;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Metadata;
 using System.Reflection;
 
 namespace Coverage.Instrument
@@ -58,7 +57,7 @@ namespace Coverage.Instrument
 			{
 				if(_counterMethodDef == null)
 				{
-					///Retrieving MethodInfo using expressions will guarantee compile time error if method signature changes
+					//Retrieving MethodInfo using expressions will guarantee compile time error if method signature changes
 					Expression<Action<string, int>> counterExpression = (moduleId, id) => Counter.Hit(moduleId, id);
 					var counterMethodToken = ((MethodCallExpression)counterExpression.Body).Method.MetadataToken;
                     _counterMethodDef = (MethodDefinition)CounterAssemblyDef.MainModule.LookupToken(counterMethodToken);
@@ -89,13 +88,13 @@ namespace Coverage.Instrument
 
 		private void SetCoverageFilePath(string coverageReportPath)
 		{
-			///Retrieving PropertyInfo using expressions
+			//Retrieving PropertyInfo using expressions
 			Expression<Func<string>> coverageFileResolver = () => Counter.CoverageFilePath;
 
-			///Modifying getter of the coverage file path - adding 2 instructions at the beginning: loadstr /new path/ and ret.
-			///Old instructions become unreachable...
+			//Modifying getter of the coverage file path - adding 2 instructions at the beginning: loadstr /new path/ and ret.
+			//Old instructions become unreachable...
 			/*
-			 * Awaiting Mono.Cecil fix
+			 * TODO: Awaiting Mono.Cecil fix
 			 * var pathAccessorToken = ((MemberExpression)coverageFileResolver.Body).Member.MetadataToken;
 			 * var pathAccessorDef = (PropertyDefinition)CounterAssemblyDef.MainModule.LookupByToken(new MetadataToken(pathAccessorToken));
 			 * var pathGetterDef = pathAccessorDef.GetMethod;

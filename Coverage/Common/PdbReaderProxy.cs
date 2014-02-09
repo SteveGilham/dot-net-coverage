@@ -29,7 +29,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Cci.Pdb;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
