@@ -33,6 +33,7 @@ using System.IO;
 using Coverage.Common;
 using Coverage.Instrument;
 using Coverage.Report;
+using Mono.Options;
 
 namespace Coverage
 {
