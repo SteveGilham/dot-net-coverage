@@ -116,6 +116,11 @@ namespace Coverage.Common
 			_context.SkipType = IsFiltered(typeDef);
 			visitor.VisitType(typeDef, _context);
 
+            foreach(var type2 in typeDef.NestedTypes)
+            {
+                ProcessType(visitor, type2);
+            }
+
 			//Take all methods and constructors definitions
             var methods = typeDef.Methods;//TODO: where are constructors: .Cast<MethodDefinition>().Union(typeDef.Methods.Constructors.Cast<MethodDefinition>());
 
